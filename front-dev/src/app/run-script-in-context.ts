@@ -13,9 +13,18 @@ export class RunScriptInContext {
 
   runScript() {
     const context = {
+      args: [],
 
-      getData: function getData() { return 'hello'},
-      processData: function processData(data: any) {console.log(data + ' world')}
+      getData: () => { return 'hello'},
+      processData: (data: any) => {console.log(data + ' world')},
+      execute: (ref: string, ...args: any[]) => {
+        const innerContext = {
+          ...context,
+          args,
+        };
+
+        this.script[ref](innerContext);
+      }
     }
 
 
